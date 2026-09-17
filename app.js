@@ -1,6 +1,6 @@
 /* ===================== Store ===================== */
 const STORAGE_KEY = 'travelcare_state_v1';
-
+ 
 function defaultState() {
   return {
     user: null, // {firstName,lastName,email,phone,password,dob,gender,bloodGroup,nationality,avatar}
@@ -25,32 +25,39 @@ const Store = {
 };
 window.Store = Store;
 window.resetDemo = () => { if (confirm('Reset all demo data (account, settings)?')) Store.reset(); };
-
+ 
 /* ===================== Router ===================== */
-function navigate(route) { location.hash = '#/' + route; }
+function navigate(route, param) { location.hash = '#/' + route + (param ? '/' + param : ''); }
 window.navigate = navigate;
-
+ 
 const BUILT_ROUTES = ['onboarding','login','location','create-account','otp-verification',
   'account-created','complete-profile','home','search','forget-password',
-  'create-new-password','password-changed','no-internet','notification','coming-soon'];
-
-function currentRoute() {
+  'create-new-password','password-changed','no-internet','notification','coming-soon',
+  'doctor-list','doctor-profile','book-appointment','appointment-confirmed'];
+ 
+function parseHash() {
   const h = location.hash.replace(/^#\/?/, '');
-  if (h && BUILT_ROUTES.includes(h)) return h;
-  if (h) return 'coming-soon';
-  return Store.state.session.loggedIn ? 'home' : 'onboarding';
+  const parts = h.split('/');
+  return { route: parts[0], param: parts[1] ? decodeURIComponent(parts[1]) : null };
 }
-
+ 
+function currentRouteInfo() {
+  const { route, param } = parseHash();
+  if (route && BUILT_ROUTES.includes(route)) return { route, param };
+  if (route) return { route: 'coming-soon', param: null };
+  return { route: Store.state.session.loggedIn ? 'home' : 'onboarding', param: null };
+}
+ 
 function render() {
-  const route = currentRoute();
+  const { route, param } = currentRouteInfo();
   const screen = SCREENS[route] || SCREENS['onboarding'];
-  document.getElementById('app').innerHTML = screen.template();
-  if (screen.mount) screen.mount();
+  document.getElementById('app').innerHTML = screen.template(param);
+  if (screen.mount) screen.mount(param);
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', render);
 window.addEventListener('DOMContentLoaded', render);
-
+ 
 /* ===================== Helpers ===================== */
 function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 function digitsOnly(v) { return (v || '').replace(/\D/g, ''); }
@@ -72,10 +79,10 @@ function renderStrengthBars(score) {
   }
   return bars;
 }
-
+ 
 /* ===================== Screens ===================== */
 const SCREENS = {};
-
+ 
 /* ---- Onboarding ---- */
 SCREENS['onboarding'] = {
   template: () => `
@@ -98,7 +105,7 @@ SCREENS['onboarding'] = {
     </div>
   </div>`
 };
-
+ 
 /* ---- Login ---- */
 SCREENS['login'] = {
   template: () => `
@@ -143,7 +150,7 @@ SCREENS['login'] = {
     document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
   }
 };
-
+ 
 /* ---- Location ---- */
 SCREENS['location'] = {
   template: () => `
@@ -159,7 +166,7 @@ SCREENS['location'] = {
     <a class="not-now" onclick="navigate('login')">Not Now</a>
   </div>`
 };
-
+ 
 /* ---- Create Account ---- */
 SCREENS['create-account'] = {
   template: () => `
@@ -230,7 +237,7 @@ SCREENS['create-account'] = {
     });
   }
 };
-
+ 
 /* ---- OTP Verification ---- */
 SCREENS['otp-verification'] = {
   template: () => {
@@ -266,7 +273,7 @@ SCREENS['otp-verification'] = {
       });
     });
     if (inputs[0]) inputs[0].focus();
-
+ 
     let seconds = 30;
     const timerEl = document.getElementById('otpTimer');
     const resendLink = document.getElementById('resendLink');
@@ -301,7 +308,7 @@ SCREENS['otp-verification'] = {
     });
   }
 };
-
+ 
 /* ---- Account Created ---- */
 SCREENS['account-created'] = {
   template: () => `
@@ -321,7 +328,7 @@ SCREENS['account-created'] = {
     </div>
   </div>`
 };
-
+ 
 /* ---- Complete Profile ---- */
 SCREENS['complete-profile'] = {
   template: () => {
@@ -394,7 +401,7 @@ SCREENS['complete-profile'] = {
     });
   }
 };
-
+ 
 /* ---- Home ---- */
 const SPECIALTIES = [
   { key: 'general', icon: '🧑‍⚕️', label: 'General' },
@@ -424,10 +431,10 @@ SCREENS['home'] = {
       <span class="hero-btn">Search now →</span>
       <div class="stethoscope">🩺</div>
     </div>
-    <div class="sec-header"><h4>Specialties</h4><a onclick="navigate('search')">View all</a></div>
+    <div class="sec-header"><h4>Specialties</h4><a onclick="navigate('doctor-list')">View all</a></div>
     <div class="spec-row">
-      ${SPECIALTIES.map(s => `<div class="spec-item" onclick="navigate('search')"><div class="ic">${s.icon}</div>${s.label}</div>`).join('')}
-      <div class="spec-item" onclick="navigate('search')"><div class="ic">⋯</div>More</div>
+      ${SPECIALTIES.map(s => `<div class="spec-item" onclick="navigate('doctor-list')"><div class="ic">${s.icon}</div>${s.label}</div>`).join('')}
+      <div class="spec-item" onclick="navigate('doctor-list')"><div class="ic">⋯</div>More</div>
     </div>
     <div class="sec-header"><h4>Nearby clinics</h4><a onclick="navigate('search')">View all</a></div>
     ${CLINICS.map(c => `
@@ -450,7 +457,7 @@ SCREENS['home'] = {
   </div>`;
   }
 };
-
+ 
 /* ---- Search ---- */
 SCREENS['search'] = {
   template: () => `
@@ -488,10 +495,7 @@ SCREENS['search'] = {
       document.getElementById('feeVal').textContent = e.target.value;
     });
     document.querySelectorAll('.spec-card').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.getElementById('seResults').innerHTML =
-          `<div class="se-empty">No ${btn.getAttribute('data-spec')} doctors added to this prototype yet — this is where results would appear.</div>`;
-      });
+      btn.addEventListener('click', () => navigate('doctor-list'));
     });
     document.getElementById('clearRecent').addEventListener('click', () => {
       document.getElementById('chipRow').innerHTML = '<span class="chip" style="opacity:.5">No recent searches</span>';
@@ -504,7 +508,7 @@ SCREENS['search'] = {
     });
   }
 };
-
+ 
 /* ---- Forget Password ---- */
 SCREENS['forget-password'] = {
   template: () => {
@@ -547,7 +551,7 @@ SCREENS['forget-password'] = {
     });
   }
 };
-
+ 
 /* ---- Create New Password ---- */
 SCREENS['create-new-password'] = {
   template: () => `
@@ -583,7 +587,7 @@ SCREENS['create-new-password'] = {
     });
   }
 };
-
+ 
 /* ---- Password Changed ---- */
 SCREENS['password-changed'] = {
   template: () => `
@@ -594,7 +598,7 @@ SCREENS['password-changed'] = {
     <button class="btn btn-primary" onclick="navigate('login')">Go to login</button>
   </div>`
 };
-
+ 
 /* ---- No Internet ---- */
 SCREENS['no-internet'] = {
   template: () => `
@@ -609,7 +613,7 @@ SCREENS['no-internet'] = {
     <div style="font-size:40px; padding-bottom:10px;">📍</div>
   </div>`
 };
-
+ 
 /* ---- Notification ---- */
 SCREENS['notification'] = {
   template: () => `
@@ -627,8 +631,212 @@ SCREENS['notification'] = {
     </div>
   </div>`
 };
-
-/* ---- Coming soon fallback ---- */
+ 
+/* ---- Doctors data ---- */
+const DOCTORS = [
+  { id: 'dibyendu', name: 'Dr. Dibyendu Majumdar', spec: 'General Physician', qual: 'MBBS, MD (General Medicine)', icon: '🩺', rating: '4.6', reviews: 126, lang: 'English, Hindi', dist: '1.2 km', fee: 300, patients: '2,250+', exp: '25+ yrs', clinic: 'Apollo Clinic', location: 'Bangalore', duration: '15-20m', about: "Dedicated general physician with 25+ years treating acute and chronic conditions. Known for a patient-first approach.", services: [['🩺','Health Checkup'],['🌡️','Fever'],['🤧','Cold & Cough'],['🩸','Diabetes'],['👍','Digestive'],['🦴','Arthritis Pain']] },
+  { id: 'sumanth', name: 'Dr. Sumanth Shetty', spec: 'Dentist', qual: 'BDS, MDS (Orthodontics)', icon: '🦷', rating: '4.7', reviews: 98, lang: 'English, Hindi', dist: '1.7 km', fee: 250, patients: '1,800+', exp: '12+ yrs', clinic: 'City Dental Care', location: 'Bangalore', duration: '20-30m', about: "Specializes in orthodontics and general dentistry with a gentle, patient-friendly approach for all ages.", services: [['🦷','Cleaning'],['😬','Braces'],['🪥','Whitening'],['🩹','Extraction'],['🦷','Root Canal'],['🧒','Kids Dental']] },
+  { id: 'mercy', name: 'Dr. Mercy C V', spec: 'Gynecologist', qual: 'MBBS, MS (OBG)', icon: '👩‍⚕️', rating: '4.4', reviews: 75, lang: 'English, Hindi', dist: '1.9 km', fee: 540, patients: '3,100+', exp: '18+ yrs', clinic: 'Womens Wellness Clinic', location: 'Bangalore', duration: '20-30m', about: "Experienced gynecologist focused on women's health, prenatal care, and family planning.", services: [['🤰','Prenatal Care'],['🩺','Checkup'],['👶','Family Planning'],['🔬','Ultrasound'],['💊','Consultation'],['🩹','Minor Procedures']] },
+  { id: 'jaidev', name: 'Dr. Jaidev S', spec: 'Neurologist', qual: 'MBBS, DM (Neurology)', icon: '🧠', rating: '4.2', reviews: 326, lang: 'English, Hindi', dist: '1.6 km', fee: 700, patients: '4,500+', exp: '22+ yrs', clinic: 'Neuro Care Institute', location: 'Bangalore', duration: '25-30m', about: "Leading neurologist treating migraines, seizures, and nerve-related disorders with modern diagnostics.", services: [['🧠','Neuro Exam'],['💊','Migraine Care'],['⚡','EEG'],['🩺','Consultation'],['🦵','Nerve Pain'],['🧘','Follow-up']] }
+];
+function findDoctor(id) { return DOCTORS.find(d => d.id === id) || DOCTORS[0]; }
+ 
+/* ---- Doctor List ---- */
+SCREENS['doctor-list'] = {
+  template: () => `
+  <div class="screen-inner dl-wrap">
+    <div class="dl-header"><a onclick="navigate('search')">←</a><h1>Doctors List</h1></div>
+    <div class="dl-filters">
+      <span>📍</span><span class="loc">India</span><span>·</span><span>Results</span>
+      <span class="dl-filter-chip">Nearest ▾</span><span class="dl-filter-chip">Fee ▾</span>
+    </div>
+    ${DOCTORS.map(d => `
+    <div class="doc-card" onclick="navigate('doctor-profile','${d.id}')">
+      <div class="row">
+        <div class="ic">${d.icon}</div>
+        <div>
+          <h5>${d.name}</h5>
+          <div class="spec">${d.spec}</div>
+          <div class="meta-row">⭐ ${d.rating} · ${d.reviews} reviews</div>
+          <div class="lang">🗣️ ${d.lang}</div>
+        </div>
+        <div class="right">${d.dist}<div class="fee">₹ ${d.fee}</div>consult fee</div>
+      </div>
+      <div class="verified">✓</div>
+    </div>`).join('')}
+    <div class="bottom-nav">
+      <a onclick="navigate('home')"><span class="ic">🏠</span>Home</a>
+      <a class="active" onclick="navigate('search')"><span class="ic">🔍</span>Search</a>
+      <a onclick="navigate('coming-soon')"><span class="ic">📅</span>Booking</a>
+      <a onclick="navigate('coming-soon')"><span class="ic">🚨</span>Emergency</a>
+      <a onclick="navigate('coming-soon')"><span class="ic">👤</span>Profile</a>
+    </div>
+  </div>`
+};
+ 
+/* ---- Doctor Profile ---- */
+SCREENS['doctor-profile'] = {
+  template: (id) => {
+    const d = findDoctor(id);
+    const slots = ['9.00 AM','10.00 AM','11.00 AM','12.00 PM','4.00 PM','5.00 PM','6.00 PM','7.00 PM'];
+    return `
+  <div class="screen-inner dp-wrap">
+    <div class="dp-header"><h1>Doctor Details</h1><a onclick="navigate('doctor-list')">←</a></div>
+    <div class="dp-card">
+      <div class="ic">${d.icon}</div>
+      <div>
+        <h3>${d.name}</h3>
+        <div class="verified">✓ Verified Doctor</div>
+        <div class="qual">${d.qual}</div>
+        <div class="spec">${d.spec}</div>
+        <div class="stats">👍 ${d.patients} patients &nbsp; ${d.exp}</div>
+      </div>
+    </div>
+    <div class="dp-info-row">
+      <div class="item"><div class="val">₹ ${d.fee}</div><div class="lbl">Fee</div></div>
+      <div class="item"><div class="val">${d.duration}</div><div class="lbl">Duration</div></div>
+      <div class="item"><div class="val">${d.location}</div><div class="lbl">Location</div></div>
+    </div>
+    <div class="dp-sec-title">About</div>
+    <div class="dp-about">${d.about}</div>
+    <div class="dp-sec-title">Services</div>
+    <div class="dp-services">
+      ${d.services.map(s => `<div class="svc"><div class="ic">${s[0]}</div>${s[1]}</div>`).join('')}
+    </div>
+    <div class="dp-sec-title">Available today</div>
+    <div class="dp-slots" id="dpSlots">
+      ${slots.map((s,i) => `<button type="button" data-slot="${s}" class="${i===0?'selected':''}">${s}</button>`).join('')}
+    </div>
+    <button class="btn btn-primary" id="dpContinue">Continue</button>
+  </div>`;
+  },
+  mount: (id) => {
+    const d = findDoctor(id);
+    let selectedSlot = document.querySelector('#dpSlots button.selected').getAttribute('data-slot');
+    document.querySelectorAll('#dpSlots button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#dpSlots button').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedSlot = btn.getAttribute('data-slot');
+      });
+    });
+    document.getElementById('dpContinue').addEventListener('click', () => {
+      Store.update({ pendingBooking: Object.assign({}, Store.state.pendingBooking, { doctorId: d.id, time: selectedSlot }) });
+      navigate('book-appointment', d.id);
+    });
+  }
+};
+ 
+/* ---- Book Appointment ---- */
+SCREENS['book-appointment'] = {
+  template: (id) => {
+    const d = findDoctor(id);
+    const dates = [
+      { day: 'Mon', num: 20 }, { day: 'Tue', num: 21 }, { day: 'Wed', num: 22 },
+      { day: 'Thu', num: 23 }, { day: 'Fri', num: 24 }
+    ];
+    const times = ['9.00 AM','11.00 AM','5.00 PM','7.00 PM'];
+    const pending = Store.state.pendingBooking || {};
+    return `
+  <div class="screen-inner ba-wrap">
+    <div class="ba-header"><a onclick="navigate('doctor-profile','${d.id}')">←</a><h1>Book Appointment</h1></div>
+    <div class="ba-doc-card">
+      <div class="ic">${d.icon}</div>
+      <div>
+        <h3>${d.name} <span class="verified">✓</span></h3>
+        <div class="spec">${d.spec}</div>
+        <div class="loc">📍 ${d.clinic}, ${d.location}</div>
+      </div>
+    </div>
+    <div class="ba-sec-title">Select Date</div>
+    <div class="ba-dates" id="baDates">
+      ${dates.map((dt,i) => `<button type="button" data-date="${dt.day} ${dt.num}" class="${i===2?'selected':''}"><span class="d">${dt.day}</span>${dt.num}</button>`).join('')}
+    </div>
+    <div class="ba-sec-title">Select Time</div>
+    <div class="ba-times" id="baTimes">
+      ${times.map(t => `<button type="button" data-time="${t}" class="${t===(pending.time)?'selected':''}">${t}</button>`).join('')}
+    </div>
+    <div class="ba-note">⏰ All times shown in local time (GMT +5:30)</div>
+    <div class="ba-sec-title">Visit Type</div>
+    <div class="ba-visit-types" id="baVisitTypes">
+      <button type="button" data-visit="In-clinic" class="selected">🏥<br>In-clinic visit</button>
+      <button type="button" data-visit="Video call">📹<br>Video call</button>
+    </div>
+    <div class="ba-total"><span>Total</span><span class="amt">₹ ${d.fee}.00</span></div>
+    <div class="ba-error" id="baError"></div>
+    <button class="btn btn-primary" id="baProceed">Proceed</button>
+  </div>`;
+  },
+  mount: (id) => {
+    const d = findDoctor(id);
+    let selectedDate = document.querySelector('#baDates button.selected').getAttribute('data-date');
+    let selectedTime = (document.querySelector('#baTimes button.selected') || {}).getAttribute
+      ? (document.querySelector('#baTimes button.selected') ? document.querySelector('#baTimes button.selected').getAttribute('data-time') : null)
+      : null;
+    let selectedVisit = 'In-clinic';
+    document.querySelectorAll('#baDates button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#baDates button').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedDate = btn.getAttribute('data-date');
+      });
+    });
+    document.querySelectorAll('#baTimes button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#baTimes button').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedTime = btn.getAttribute('data-time');
+        document.getElementById('baError').textContent = '';
+      });
+    });
+    document.querySelectorAll('#baVisitTypes button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#baVisitTypes button').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedVisit = btn.getAttribute('data-visit');
+      });
+    });
+    document.getElementById('baProceed').addEventListener('click', () => {
+      if (!selectedTime) { document.getElementById('baError').textContent = 'Please select a time slot.'; return; }
+      const bookingId = 'TC' + Math.floor(1000000000 + Math.random() * 8999999999);
+      const appointments = (Store.state.appointments || []).concat([{
+        doctorId: d.id, date: selectedDate, time: selectedTime, visitType: selectedVisit, fee: d.fee, bookingId
+      }]);
+      Store.update({ appointments, pendingBooking: { doctorId: d.id, date: selectedDate, time: selectedTime, visitType: selectedVisit, bookingId } });
+      navigate('appointment-confirmed', d.id);
+    });
+  }
+};
+ 
+/* ---- Appointment Confirmed ---- */
+SCREENS['appointment-confirmed'] = {
+  template: (id) => {
+    const d = findDoctor(id);
+    const b = Store.state.pendingBooking || {};
+    return `
+  <div class="screen-inner acf-wrap">
+    <div class="acf-check">✓</div>
+    <div class="acf-title font-mont">Appointment confirmed!</div>
+    <div class="acf-sub">Details sent to your email and phone.</div>
+    <div class="acf-card">
+      <div class="top"><div class="ic">${d.icon}</div><div><h4>${d.name} ✓</h4><div class="spec">${d.spec} · ${d.clinic}</div></div></div>
+      <div class="acf-row"><span class="lbl">📅 Date</span><span>${b.date || '—'}</span></div>
+      <div class="acf-row"><span class="lbl">🕐 Time</span><span>${b.time || '—'}</span></div>
+      <div class="acf-row"><span class="lbl">📍 Location</span><span>${d.clinic}, ${d.location}</span></div>
+      <div class="acf-row"><span class="lbl">💳 Payment</span><span>₹ ${d.fee} (Paid)</span></div>
+    </div>
+    <div class="acf-bookingid"><span>Booking ID</span><span class="id">${b.bookingId || '—'}</span></div>
+    <div class="acf-actions">
+      <button onclick="alert('Instructions: Arrive 10 minutes early and bring any prior reports.')"><span class="ic">📋</span>Instructions</button>
+      <button onclick="alert('Added to your calendar (demo).')"><span class="ic">📅</span>Add to calendar</button>
+      <button onclick="alert('Opening chat with the clinic (demo).')"><span class="ic">💬</span>Contact clinic</button>
+    </div>
+    <button class="btn btn-primary" onclick="navigate('home')">Back To Home</button>
+  </div>`;
+  }
+};
+ 
+ 
 SCREENS['coming-soon'] = {
   template: () => `
   <div class="screen-inner soon-wrap">
@@ -638,3 +846,4 @@ SCREENS['coming-soon'] = {
     <a class="btn btn-primary" onclick="navigate('home')" style="display:inline-flex;">Back to Home</a>
   </div>`
 };
+ 
