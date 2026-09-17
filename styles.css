@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
-
+ 
 :root{
   --teal:#008783;
   --teal-dark:#00595a;
@@ -25,7 +25,7 @@ body{
 }
 h1,h2,h3,p{margin:0;}
 .font-mont{font-family:'Montserrat',sans-serif;}
-
+ 
 /* Phone frame / app root */
 #app{
   position:relative;
@@ -38,11 +38,11 @@ h1,h2,h3,p{margin:0;}
   margin:0 12px 12px;
 }
 .screen-inner{position:relative; min-height:956px; width:100%;}
-
+ 
 .dev-reset{
   color:#666; font-size:12px; text-decoration:none; margin-top:4px;
 }
-
+ 
 /* Shared form controls */
 .btn{
   display:flex; align-items:center; justify-content:center;
@@ -63,7 +63,7 @@ h1,h2,h3,p{margin:0;}
 .field{position:relative;}
 .field input, .field select{padding-left:44px;}
 .field .icon{position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:16px; z-index:1;}
-
+ 
 .bottom-nav{
   position:absolute; left:0; right:0; bottom:0; height:90px; background:#fff; border-top:1px solid var(--border);
   display:flex; align-items:center; justify-content:space-around; padding-bottom:10px;
@@ -71,7 +71,7 @@ h1,h2,h3,p{margin:0;}
 .bottom-nav a{display:flex; flex-direction:column; align-items:center; gap:4px; text-decoration:none; color:#000; font-size:13px; cursor:pointer;}
 .bottom-nav a .ic{font-size:24px;}
 .bottom-nav a.active{color:var(--teal);}
-
+ 
 /* Onboarding */
 .onb-wrap{position:relative; min-height:956px; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 40%); padding-bottom:20px;}
 .onb-logo{font-size:70px; text-align:center; margin:48px auto 0;}
@@ -83,7 +83,7 @@ h1,h2,h3,p{margin:0;}
 .onb-features .feat{text-align:center; font-size:14px; font-weight:500;}
 .onb-features .div{width:1px; height:40px; background:#e5e7eb;}
 .onb-actions{position:absolute; left:50%; transform:translateX(-50%); bottom:40px; width:342px; display:flex; flex-direction:column; gap:12px;}
-
+ 
 /* Login */
 .login-wrap{position:relative; padding:50px 40px 40px; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 50%);}
 .back-btn{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:1px solid var(--border); background:#fff; cursor:pointer; text-decoration:none; color:var(--ink); position:absolute; top:16px; left:16px;}
@@ -102,7 +102,7 @@ h1,h2,h3,p{margin:0;}
 .form-msg.err{background:#fdeaea; color:#c0392b;}
 .form-msg.ok{background:#e8f7f0; color:#1a7a4c;}
 .hint{font-size:12px; color:#888; margin-top:-8px; margin-bottom:14px;}
-
+ 
 /* Location */
 .loc-wrap{position:relative; padding:56px 21px 40px;}
 .loc-header{display:flex; align-items:center; gap:10px; margin-bottom:18px;}
@@ -118,7 +118,7 @@ h1,h2,h3,p{margin:0;}
 .loc-item p{font-size:13px; color:#333;}
 .allow-btn{background:var(--teal); margin-top:26px; font-size:18px; gap:10px;}
 .not-now{display:block; text-align:center; color:var(--teal); font-weight:700; font-size:18px; margin-top:16px; text-decoration:none; font-family:'Montserrat',sans-serif; cursor:pointer;}
-
+ 
 /* Create account */
 .ca-wrap{position:relative; padding:46px 35px 40px; background:linear-gradient(135deg,#fff 40%,rgba(0,135,131,.2) 100%);}
 .ca-header{position:relative; margin-bottom:10px;}
@@ -135,7 +135,7 @@ h1,h2,h3,p{margin:0;}
 .privacy-box{background:rgba(188,225,204,.36); border-radius:15px; padding:14px; display:flex; gap:12px; margin:16px 0; align-items:flex-start; font-size:13px;}
 .privacy-box input{margin-top:3px;}
 .create-btn{background:var(--teal); gap:10px; font-size:17px;}
-
+ 
 /* OTP */
 .otp-wrap{position:relative; padding:60px 41px 40px; text-align:center; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 30%);}
 .otp-h1{font-size:22px; font-weight:700; margin-bottom:24px; font-family:'Montserrat',sans-serif;}
@@ -153,7 +153,7 @@ h1,h2,h3,p{margin:0;}
 .otp-resend a.disabled{color:#bbb; pointer-events:none;}
 .otp-security{background:rgba(188,225,204,.3); border-radius:15px; padding:14px; display:flex; gap:10px; align-items:center; text-align:left; font-size:13px; margin-bottom:18px;}
 .otp-hint{font-size:12px; color:#999; margin-bottom:10px;}
-
+ 
 /* Account created */
 .ac-wrap{position:relative; padding:0 0 40px; text-align:center;}
 .ac-hero{width:100%; height:210px; background:linear-gradient(180deg,#eaf7f4,#fff); display:flex; align-items:center; justify-content:center; font-size:80px; margin-bottom:16px;}
@@ -163,7 +163,7 @@ h1,h2,h3,p{margin:0;}
 .ac-checks .item{display:flex; align-items:center; gap:14px; font-size:16px;}
 .ac-checks .tick{width:40px; height:40px; border-radius:50%; background:rgba(188,225,204,.5); display:flex; align-items:center; justify-content:center; color:var(--teal); font-size:18px; flex-shrink:0;}
 .ac-actions{padding:0 45px; margin-top:28px; display:flex; flex-direction:column; gap:12px;}
-
+ 
 /* Complete profile */
 .cp-wrap{position:relative; padding:40px 35px 40px; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 30%);}
 .cp-header{display:flex; align-items:center; gap:14px; margin-bottom:18px;}
@@ -180,7 +180,7 @@ h1,h2,h3,p{margin:0;}
 .select-field select{width:100%; height:48px; border:2px solid #d9d9d9; border-radius:10px; padding:0 12px; font-size:15px; background:#fff;}
 .cp-actions{margin-top:24px; display:flex; flex-direction:column; gap:12px; align-items:center;}
 .skip-link{color:var(--teal); font-weight:700; font-family:'Montserrat',sans-serif; text-decoration:none; cursor:pointer;}
-
+ 
 /* Home */
 .home-wrap{position:relative; padding:56px 36px 110px;}
 .home-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;}
@@ -206,7 +206,7 @@ h1,h2,h3,p{margin:0;}
 .clinic-info .meta .open{color:var(--teal);}
 .clinic-info .rating{font-size:13px; color:rgba(0,0,0,.6);}
 .clinic-arrow{margin-left:auto; font-size:18px; color:#333;}
-
+ 
 /* Search */
 .se-wrap{position:relative; padding:56px 40px 110px;}
 .se-header{display:flex; align-items:center; gap:14px; margin-bottom:20px;}
@@ -225,7 +225,7 @@ h1,h2,h3,p{margin:0;}
 .fee-range{width:100%;}
 .se-results{margin-top:6px;}
 .se-empty{text-align:center; color:#888; font-size:14px; padding:20px 0;}
-
+ 
 /* Forget password */
 .fp-wrap{position:relative; padding:70px 40px 40px; text-align:center; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 30%);}
 .fp-title{font-size:28px; margin-bottom:24px;}
@@ -241,27 +241,27 @@ h1,h2,h3,p{margin:0;}
 .fp-option.selected .radio{border-color:var(--teal); background:var(--teal);}
 .fp-note{display:flex; gap:10px; align-items:center; background:rgba(188,225,204,.3); border-radius:10px; padding:14px; font-size:13px; color:var(--teal); text-align:left; margin:20px 0;}
 .fp-back{display:block; text-align:center; color:var(--teal); margin-top:20px; text-decoration:none; font-size:16px; cursor:pointer;}
-
+ 
 /* Create new password */
 .np-wrap{position:relative; padding:60px 40px 40px; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 30%);}
 .np-wrap a.back{font-size:22px; text-decoration:none; color:#000; cursor:pointer;}
 .np-title{font-size:24px; margin:20px 0 14px;}
 .np-desc{font-size:14px; margin-bottom:22px; line-height:1.4;}
 .np-field{margin-bottom:16px;}
-
+ 
 /* Password changed */
 .pc-wrap{position:relative; padding:100px 40px 40px; text-align:center; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 30%);}
 .pc-hero{font-size:100px; margin-bottom:34px;}
 .pc-title{font-size:26px; font-weight:600; margin-bottom:20px; line-height:1.3;}
 .pc-desc{font-size:16px; margin-bottom:50px;}
-
+ 
 /* No internet */
 .ni-wrap{position:relative; padding:0; text-align:center; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 40%);}
 .ni-hero{padding-top:60px; font-size:90px;}
 .ni-title{font-size:21px; font-weight:700; margin:34px 0 12px;}
 .ni-desc{font-size:15px; margin-bottom:36px; padding:0 30px;}
 .ni-actions{padding:0 40px; display:flex; flex-direction:column; gap:14px; margin-bottom:50px;}
-
+ 
 /* Notification */
 .not-wrap{position:relative; padding:50px 40px 40px; text-align:center; background:linear-gradient(180deg,#f4fbfb 0%,#ffffff 30%);}
 .not-wrap a.back{position:absolute; left:40px; top:50px; font-size:22px; text-decoration:none; color:var(--teal); cursor:pointer;}
@@ -274,7 +274,98 @@ h1,h2,h3,p{margin:0;}
 .not-item p{font-size:12px; color:#555;}
 .not-actions{margin-top:22px; display:flex; flex-direction:column; gap:12px; align-items:center;}
 .not-later{color:var(--teal); font-weight:700; font-family:'Montserrat',sans-serif; text-decoration:none; cursor:pointer;}
-
+ 
 /* Coming soon fallback */
 .soon-wrap{position:relative; padding:60px 40px; text-align:center;}
 .soon-wrap a{color:var(--teal); text-decoration:none; cursor:pointer;}
+ 
+/* Doctor List */
+.dl-wrap{position:relative; padding:56px 35px 110px;}
+.dl-header{display:flex; align-items:center; gap:14px; margin-bottom:16px;}
+.dl-header a{font-size:22px; text-decoration:none; color:#000; cursor:pointer;}
+.dl-header h1{font-size:21px; font-weight:700; font-family:'Montserrat',sans-serif;}
+.dl-filters{display:flex; align-items:center; gap:10px; margin-bottom:18px; font-size:14px; flex-wrap:wrap;}
+.dl-filters .loc{font-size:16px; font-weight:500;}
+.dl-filter-chip{border:2px solid #cbe1e2; color:var(--teal); border-radius:13px; padding:5px 12px; font-size:13px; cursor:pointer; background:#fff;}
+.doc-card{display:block; border:2px solid #d9d9d9; border-radius:15px; padding:16px; margin-bottom:14px; text-decoration:none; color:#000; cursor:pointer; position:relative;}
+.doc-card .row{display:flex; gap:12px; align-items:flex-start;}
+.doc-card .ic{width:60px; height:60px; border-radius:10px; background:rgba(0,135,131,.1); display:flex; align-items:center; justify-content:center; font-size:26px; flex-shrink:0;}
+.doc-card h5{font-size:16px; margin-bottom:2px;}
+.doc-card .spec{font-size:13px; color:rgba(0,0,0,.5); margin-bottom:6px;}
+.doc-card .meta-row{font-size:13px; color:rgba(0,0,0,.6); display:flex; gap:6px; align-items:center;}
+.doc-card .lang{font-size:13px; color:rgba(0,0,0,.5); margin-top:4px;}
+.doc-card .right{margin-left:auto; text-align:right; font-size:13px; color:rgba(0,0,0,.5);}
+.doc-card .right .fee{font-size:15px; color:#000; font-weight:600; margin-top:20px;}
+.doc-card .verified{position:absolute; right:16px; top:18px; color:var(--teal); font-size:16px;}
+ 
+/* Doctor Profile */
+.dp-wrap{position:relative; padding:56px 26px 110px;}
+.dp-header{display:flex; align-items:center; gap:14px; margin-bottom:20px;}
+.dp-header a{font-size:22px; text-decoration:none; color:#000; cursor:pointer; order:2;}
+.dp-header h1{font-size:20px; font-weight:700; font-family:'Inter',sans-serif;}
+.dp-card{display:flex; gap:14px; margin-bottom:20px;}
+.dp-card .ic{width:70px; height:70px; border-radius:10px; background:rgba(0,135,131,.1); display:flex; align-items:center; justify-content:center; font-size:30px; flex-shrink:0;}
+.dp-card h3{font-size:16px; margin-bottom:4px;}
+.dp-card .verified{color:var(--teal); font-size:13px; margin-bottom:2px;}
+.dp-card .qual{font-size:13px; color:rgba(0,0,0,.5); margin-bottom:2px;}
+.dp-card .spec{color:var(--teal); font-size:13px; margin-bottom:6px;}
+.dp-card .stats{font-size:13px; color:rgba(0,0,0,.6);}
+.dp-info-row{display:flex; background:rgba(217,217,217,.4); border-radius:20px; margin-bottom:22px; overflow:hidden;}
+.dp-info-row .item{flex:1; text-align:center; padding:12px 0; border-right:1px solid #ccc;}
+.dp-info-row .item:last-child{border-right:none;}
+.dp-info-row .item .val{color:var(--teal); font-weight:700; font-size:15px;}
+.dp-info-row .item .lbl{font-size:13px; margin-top:2px;}
+.dp-sec-title{font-size:16px; font-weight:700; margin-bottom:8px;}
+.dp-about{font-size:14px; color:rgba(0,0,0,.55); line-height:1.5; margin-bottom:20px;}
+.dp-services{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px;}
+.dp-services .svc{background:rgba(188,225,204,.2); border-radius:10px; text-align:center; padding:12px 4px; font-size:12px;}
+.dp-services .svc .ic{font-size:20px; margin-bottom:6px;}
+.dp-slots{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:20px;}
+.dp-slots button{border:2px solid #d9d9d9; border-radius:10px; height:34px; background:#fff; font-size:12px; cursor:pointer;}
+.dp-slots button.selected{border-color:var(--teal); background:rgba(0,135,131,.08); color:var(--teal); font-weight:600;}
+ 
+/* Book Appointment */
+.ba-wrap{position:relative; padding:56px 26px 110px;}
+.ba-header{display:flex; align-items:center; gap:14px; margin-bottom:18px;}
+.ba-header a{font-size:22px; text-decoration:none; color:#000; cursor:pointer;}
+.ba-header h1{font-size:19px; font-weight:700; font-family:'Inter',sans-serif;}
+.ba-doc-card{background:rgba(217,217,217,.25); border-radius:13px; padding:16px; display:flex; gap:14px; margin-bottom:22px;}
+.ba-doc-card .ic{width:70px; height:70px; border-radius:10px; background:rgba(0,135,131,.12); display:flex; align-items:center; justify-content:center; font-size:28px; flex-shrink:0;}
+.ba-doc-card h3{font-size:15px; margin-bottom:2px;}
+.ba-doc-card .verified{color:var(--teal); font-size:12px;}
+.ba-doc-card .spec{color:var(--teal); font-size:13px; margin:3px 0;}
+.ba-doc-card .loc{font-size:13px; color:rgba(0,0,0,.5);}
+.ba-sec-title{font-size:15px; font-weight:700; margin-bottom:10px;}
+.ba-dates{display:flex; gap:10px; margin-bottom:20px; overflow-x:auto;}
+.ba-dates button{flex-shrink:0; width:50px; height:60px; border:2px solid #d9d9d9; border-radius:13px; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:14px; cursor:pointer;}
+.ba-dates button .d{font-size:12px; color:rgba(0,0,0,.5);}
+.ba-dates button.selected{border-color:var(--teal); background:rgba(0,135,131,.08); color:var(--teal); font-weight:700;}
+.ba-times{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;}
+.ba-times button{height:48px; border:2px solid #d9d9d9; border-radius:10px; background:#fff; font-size:14px; color:rgba(0,0,0,.6); cursor:pointer;}
+.ba-times button.selected{border-color:var(--teal); background:rgba(0,135,131,.08); color:var(--teal); font-weight:600;}
+.ba-note{background:rgba(217,217,217,.3); border-radius:10px; padding:10px 14px; font-size:13px; color:rgba(0,0,0,.6); margin-bottom:20px;}
+.ba-visit-types{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:20px;}
+.ba-visit-types button{height:70px; border:2px solid #d9d9d9; border-radius:10px; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; font-size:14px; cursor:pointer;}
+.ba-visit-types button.selected{border-color:var(--teal); background:rgba(0,135,131,.08); color:var(--teal); font-weight:600;}
+.ba-total{display:flex; justify-content:space-between; align-items:center; padding-top:16px; border-top:1px solid #eee; margin-bottom:20px; font-size:16px;}
+.ba-total .amt{color:var(--teal); font-weight:600;}
+.ba-error{color:#e02727; font-size:13px; margin-bottom:12px; text-align:center;}
+ 
+/* Appointment Confirmed */
+.acf-wrap{position:relative; padding:60px 40px 40px; text-align:center;}
+.acf-check{width:90px; height:90px; border-radius:50%; background:var(--teal); color:#fff; font-size:40px; display:flex; align-items:center; justify-content:center; margin:20px auto 20px;}
+.acf-title{font-size:23px; font-weight:700; margin-bottom:8px;}
+.acf-sub{font-size:13px; color:rgba(0,0,0,.5); margin-bottom:24px;}
+.acf-card{border:2px solid #d9d9d9; border-radius:10px; text-align:left; margin-bottom:18px; overflow:hidden;}
+.acf-card .top{display:flex; gap:12px; padding:16px; align-items:center;}
+.acf-card .top .ic{width:55px; height:55px; border-radius:12px; background:rgba(0,135,131,.1); display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0;}
+.acf-card .top h4{font-size:15px; margin-bottom:2px;}
+.acf-card .top .spec{font-size:13px; color:var(--teal);}
+.acf-row{display:flex; justify-content:space-between; padding:12px 16px; border-top:1px solid #eee; font-size:14px;}
+.acf-row .lbl{color:rgba(0,0,0,.5);}
+.acf-bookingid{background:rgba(217,217,217,.4); border-radius:12px; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; font-size:14px;}
+.acf-bookingid .id{color:#046f6b; font-weight:700;}
+.acf-actions{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:26px;}
+.acf-actions button{background:rgba(217,217,217,.4); border:none; border-radius:10px; height:80px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; font-size:12px; color:rgba(0,0,0,.7); cursor:pointer;}
+.acf-actions button .ic{font-size:22px;}
+ 
